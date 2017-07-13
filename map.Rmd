@@ -31,7 +31,7 @@ For this exercise I aquired data from:
     3. webpage
         
 + You can also zoom in or out of the map
-+ Check [Github](https://github.com/armensly/plotly_practice) for the code 
++ Check [my Github](https://github.com/armensly/plotly_practice) for the code 
 
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
