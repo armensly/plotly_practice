@@ -10,6 +10,15 @@ output: ioslides_presentation
 setwd("~/coursera/coursera_developing_data_products/week2_pa/")
 knitr::opts_chunk$set(echo = TRUE)
 ```
+<style>
+
+.footer {
+    color: black; background: white;
+    position: fixed; top: 90%;
+    text-align:left; width:100%;
+}
+
+</style>
 
 ## Data Source and Map Properties
 For this exercise I aquired data from: 
@@ -22,6 +31,8 @@ For this exercise I aquired data from:
     3. webpage
         
 + You can also zoom in or out of the map
++ Check [Github](https://github.com/armensly/plotly_practice) for the code 
+
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 nces_schools <- read.csv("../week2_pa/data/nces/hd2015.csv", stringsAsFactors = FALSE, fileEncoding = "CP1252")
