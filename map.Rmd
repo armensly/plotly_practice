@@ -1,0 +1,60 @@
+---
+title: "US Higher Education Institutions"
+subtitle: "Plotly Practice"
+author: "Armen Abnousi"
+date: "July 12, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+setwd("~/coursera/coursera_developing_data_products/week2_pa/")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Source and Map Properties
+For this exercise I aquired data from: 
+
++ [NCES IPEDS data inventory](https://nces.ed.gov/ipeds/datacenter/data/HD2015.zip) 
+
++ Hovering your mouse over the points will show their:
+    1. latitude/langitude
+    2. name
+    3. webpage
+        
++ You can also zoom in or out of the map
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+nces_schools <- read.csv("../week2_pa/data/nces/hd2015.csv", stringsAsFactors = FALSE, fileEncoding = "CP1252")
+nces_schools$LONGITUD <- as.numeric(nces_schools$LONGITUD)
+nces_schools$LATITUDE <- as.numeric(nces_schools$LATITUDE)
+nces_schools[458, "LONGITUD"] <- -121.925678
+nces_schools[458, "LATITUDE"] <- 37.477779
+```
+
+## US Higher Education Institutions 
+
+```{r, echo=FALSE, message = FALSE}
+library(plotly)
+library(keyringr)
+my_mapbox_token <- decrypt_gk_pw("db mapbox user armen")
+Sys.setenv('MAPBOX_TOKEN' = my_mapbox_token)
+
+p <- plot_mapbox(nces_schools, type = "scattermapbox", mode = "scattermapbox") %>%
+  add_markers(
+    x = ~LONGITUD, y = ~LATITUDE, text = ~paste(nces_schools$INSTNM, "\nwebpage: ", nces_schools$WEBADDR), 
+    marker = list(symbol = "circle", size = 6, opacity = 0.5), showlegend = FALSE, hoverinfo = "lat+lon+text",
+  ) %>%   layout(
+    mapbox = list(
+     center = list(lat = ~median(nces_schools$LATITUDE), lon = ~median(nces_schools$LONGITUD)),
+     style = "streets", zoom = 2
+    )
+  )
+p
+```
+
+## More Details... 
+
+- *Plotly* can use a set of tools from [mapbox.com](https://www.mapbox.com)
+- For this plot I have used **plot_mapbox(...)** function from the plotly package
+- In order for plotly package to use the *mapbox* toolset, the user needs a MAPBOX access token (free)
+- I have used the *keyringr* package to hide my password from showing in the code (to upload on Github)
